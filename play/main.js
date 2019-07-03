@@ -229,7 +229,7 @@ async function main() {
     renderAvailableVersions() {
       const node = document.querySelector("#version-popup");
       const html = `
-    <ul>
+    <ul class="versions">
     ${Object.keys(window.CONFIG.availableTSVersions)
       .sort()
       .reverse()
@@ -323,9 +323,7 @@ async function main() {
 
     selectExample: async function(exampleName) {
       try {
-        const res = await fetch(
-          `${window.CONFIG.baseUrl}examples/${exampleName}.ts`,
-        );
+        const res = await fetch(`./examples/${exampleName}.ts`,);
         const code = await res.text();
         UI.shouldUpdateHash = false;
         State.inputModel.setValue(code.trim());
@@ -364,7 +362,7 @@ async function main() {
       const hash = `code/${LZString.compressToEncodedURIComponent(
         State.inputModel.getValue(),
       )}`;
-
+        
       const urlParams = Object.assign({}, diff);
 
       ["lib", "ts"].forEach(param => {
@@ -390,6 +388,10 @@ async function main() {
       }
     },
 
+    storeCurrentCodeInLocalStorage() {
+      localStorage.setItem("playground-history", State.inputModel.getValue())
+    },
+
     updateCompileOptions(name, value) {
       console.log(`${name} = ${value}`);
 
@@ -397,7 +399,7 @@ async function main() {
         [name]: value,
       });
 
-      console.log("Updaring compiler options to", compilerOptions);
+      console.log("Updating compiler options to", compilerOptions);
       monaco.languages.typescript.typescriptDefaults.setCompilerOptions(
         compilerOptions,
       );
@@ -419,9 +421,18 @@ async function main() {
     },
 
     getInitialCode() {
+      if (location.hash.startsWith("#src")) {
+        const code = location.hash.replace("#src=", "").trim();
+        return decodeURIComponent(code);
+      }
+      
       if (location.hash.startsWith("#code")) {
         const code = location.hash.replace("#code/", "").trim();
         return LZString.decompressFromEncodedURIComponent(code);
+      }
+
+      if (localStorage.getItem("playground-history")) {
+        return localStorage.getItem("playground-history")
       }
 
       return `
@@ -487,6 +498,8 @@ console.log(message);
     if (UI.shouldUpdateHash) {
       UI.updateURL();
     }
+
+    UI.storeCurrentCodeInLocalStorage()
   }
 
   UI.setCodeFromHash();
@@ -505,7 +518,7 @@ console.log(message);
   UI.renderAvailableVersions();
 
   /* Run */
-
+  document.getElementById("run").onclick = () => runJavaScript()
   function runJavaScript() {
     console.clear();
     // to hide the stack trace

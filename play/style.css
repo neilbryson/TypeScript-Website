@@ -4,20 +4,30 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  font: normal 16px/1.4em -apple-system, system-ui, BlinkMacSystemFont,
-    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
-    "Helvetica Neue", Arial, sans-serif;
+  font: normal 16px/1.4em -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+    "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
   text-rendering: optimizeLegibility;
 }
 
-header {
-  display: flex;
-  background-color: #294e80;
-  color: white;
+body p,
+body span,
+body ul li,
+body ol li {
+  font-size: 1em;
+  line-height: 1em;
 }
 
-header a {
-  color: white;
+subheader {
+  display: flex;
+  background-color: #ddd;
+  color: black;
+  margin-top: 52px;
+  padding-top: 8px;
+  font-size: 16px;
+}
+
+subheader a {
+  color: black;
   text-decoration: none;
   border-bottom: 1px solid;
 }
@@ -35,6 +45,7 @@ header a {
 #playground {
   display: flex;
   flex: 1;
+  margin-top: 10px;
 }
 
 #input {
@@ -54,13 +65,16 @@ header a {
 .popup {
   display: none;
   position: absolute;
-  left: -1em;
-  padding: 0 1em 1em;
-
+  left: -0.5em;
   z-index: 100;
-  background-color: #294e80;
-  color: white;
+  background-color: #ddd;
+  color: black;
   font-size: 80%;
+  padding: 1em;
+}
+
+.buttons {
+  padding: 0;
 }
 
 .popup ul {
@@ -70,14 +84,22 @@ header a {
 }
 
 .popup li {
-  padding: 0.5em 0;
+  padding: 0.6em 0;
+  margin-right: 0.2em;
 }
 
-.button {
-  cursor: pointer;
+.versions li {
+  width: 60px;
 }
-.button:hover {
-  color: #ffa700;
+
+.popup.buttons li.button {
+  cursor: pointer;
+  padding-left: 10px;
+}
+
+.popup li:hover {
+  background-color: #bbb;
+  /* margin-left:4px; */
 }
 
 .popup-on-hover {
@@ -89,7 +111,9 @@ header a {
 }
 
 .popup-on-hover:hover .popup-header {
-  color: #ffa700;
+  text-decoration: underline;
+  color: #294E80;
+
   cursor: pointer;
 }
 
@@ -99,6 +123,11 @@ header a {
 
 .header-item {
   margin-left: 1em;
+  margin-left: 1em;
+}
+
+.header-item label input {
+  margin-right: 8px;
 }
 
 .header-item--extra-padding {
@@ -175,6 +204,17 @@ header a {
 }
 
 #settings-popup {
-    overflow-y: auto;
-    max-height: calc( 100vh - 5rem );
+  overflow-y: auto;
+  max-height: calc(100vh - 5rem);
+}
+
+label {
+  font-weight: normal;
+  padding-bottom: 5px;
+  margin-bottom: 0;
+  padding-left: 5px;
+}
+
+.monaco-editor-hover {
+  z-index: 2000 !important;
 }
