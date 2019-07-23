@@ -16,9 +16,9 @@
   </title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/assets/css/vendor.1383c800.css">
+  <link rel="stylesheet" href="/assets/css/vendor.32fe1aae.css">
 
-  <link rel="stylesheet" href="/assets/css/style.min.d144a223.css">
+  <link rel="stylesheet" href="/assets/css/style.min.83801f6c.css">
 
   <!-- Icons --> <!-- TODO: Check that these all wok -->
   <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
@@ -32257,6 +32257,7 @@
   <li><a href="#readonlyt"><code>Readonly&lt;T&gt;</code></a></li>
   <li><a href="#recordkt"><code>Record&lt;K,T&gt;</code></a></li>
   <li><a href="#picktk"><code>Pick&lt;T,K&gt;</code></a></li>
+  <li><a href="#omittk"><code>Omit&lt;T,K&gt;</code></a></li>
   <li><a href="#excludetu"><code>Exclude&lt;T,U&gt;</code></a></li>
   <li><a href="#extracttu"><code>Extract&lt;T,U&gt;</code></a></li>
   <li><a href="#nonnullablet"><code>NonNullable&lt;T&gt;</code></a></li>
@@ -32408,6 +32409,38 @@ const todo: TodoPreview = {
 };
 </code></pre>
     
+      <h1 id="omittk">
+        
+        
+          <code>Omit&lt;T,K&gt;</code> <a href="#omittk" class="anchor-hash">#</a>
+        
+        
+      </h1>
+
+<p>Constructs a type by picking all properties from <code>T</code> and then removing <code>K</code>.</p>
+    
+      <h5 id="example-4">
+        
+        
+          Example <a href="#example-4" class="anchor-hash">#</a>
+        
+        
+      </h5>
+
+<pre><code class="language-ts">interface Todo {
+    title: string;
+    description: string;
+    completed: boolean;
+}
+
+type TodoPreview = Omit&lt;Todo, 'description'&gt;;
+
+const todo: TodoPreview = {
+    title: 'Clean room',
+    completed: false,
+};
+</code></pre>
+    
       <h1 id="excludetu">
         
         
@@ -32418,10 +32451,10 @@ const todo: TodoPreview = {
 
 <p>Constructs a type by excluding from <code>T</code> all properties that are assignable to <code>U</code>.</p>
     
-      <h5 id="example-4">
+      <h5 id="example-5">
         
         
-          Example <a href="#example-4" class="anchor-hash">#</a>
+          Example <a href="#example-5" class="anchor-hash">#</a>
         
         
       </h5>
@@ -32441,10 +32474,10 @@ type T2 = Exclude&lt;string | number | (() =&gt; void), Function&gt;;  // string
 
 <p>Constructs a type by extracting from <code>T</code> all properties that are assignable to <code>U</code>.</p>
     
-      <h5 id="example-5">
+      <h5 id="example-6">
         
         
-          Example <a href="#example-5" class="anchor-hash">#</a>
+          Example <a href="#example-6" class="anchor-hash">#</a>
         
         
       </h5>
@@ -32463,10 +32496,10 @@ type T1 = Extract&lt;string | number | (() =&gt; void), Function&gt;;  // () =&g
 
 <p>Constructs a type by excluding <code>null</code> and <code>undefined</code> from <code>T</code>.</p>
     
-      <h5 id="example-6">
+      <h5 id="example-7">
         
         
-          Example <a href="#example-6" class="anchor-hash">#</a>
+          Example <a href="#example-7" class="anchor-hash">#</a>
         
         
       </h5>
@@ -32485,10 +32518,10 @@ type T1 = NonNullable&lt;string[] | null | undefined&gt;;  // string[]
 
 <p>Constructs a type consisting of the return type of function <code>T</code>.</p>
     
-      <h5 id="example-7">
+      <h5 id="example-8">
         
         
-          Example <a href="#example-7" class="anchor-hash">#</a>
+          Example <a href="#example-8" class="anchor-hash">#</a>
         
         
       </h5>
@@ -32514,10 +32547,10 @@ type T8 = ReturnType&lt;Function&gt;;  // Error
 
 <p>Constructs a type consisting of the instance type of a constructor function type <code>T</code>.</p>
     
-      <h5 id="example-8">
+      <h5 id="example-9">
         
         
-          Example <a href="#example-8" class="anchor-hash">#</a>
+          Example <a href="#example-9" class="anchor-hash">#</a>
         
         
       </h5>
@@ -32544,10 +32577,10 @@ type T4 = InstanceType&lt;Function&gt;;  // Error
 
 <p>Constructs a type consisting of all properties of <code>T</code> set to required.</p>
     
-      <h5 id="example-9">
+      <h5 id="example-10">
         
         
-          Example <a href="#example-9" class="anchor-hash">#</a>
+          Example <a href="#example-10" class="anchor-hash">#</a>
         
         
       </h5>
@@ -32572,10 +32605,10 @@ const obj2: Required&lt;Props&gt; = { a: 5 }; // Error: property 'b' missing
 
 <p>This utility does not return a transformed type. Instead, it serves a marker for a contextual <code>this</code> type. Note that the <code>--noImplicitThis</code> flag must be enabled to use this utility.</p>
     
-      <h5 id="example-10">
+      <h5 id="example-11">
         
         
-          Example <a href="#example-10" class="anchor-hash">#</a>
+          Example <a href="#example-11" class="anchor-hash">#</a>
         
         
       </h5>

@@ -16,9 +16,9 @@
   </title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/assets/css/vendor.1383c800.css">
+  <link rel="stylesheet" href="/assets/css/vendor.32fe1aae.css">
 
-  <link rel="stylesheet" href="/assets/css/style.min.d144a223.css">
+  <link rel="stylesheet" href="/assets/css/style.min.83801f6c.css">
 
   <!-- Icons --> <!-- TODO: Check that these all wok -->
   <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
@@ -32280,10 +32280,10 @@ Conversely, a file without any top-level <code>import</code> or <code>export</co
 
 <p>Any declaration (such as a variable, function, class, type alias, or interface) can be exported by adding the <code>export</code> keyword.</p>
     
-      <h5 id="validationts">
+      <h5 id="stringvalidatorts">
         
         
-          Validation.ts <a href="#validationts" class="anchor-hash">#</a>
+          StringValidator.ts <a href="#stringvalidatorts" class="anchor-hash">#</a>
         
         
       </h5>
@@ -32301,13 +32301,14 @@ Conversely, a file without any top-level <code>import</code> or <code>export</co
         
       </h5>
 
-<pre><code class="language-ts">export const numberRegexp = /^[0-9]+$/;
+<pre><code class="language-ts">import { StringValidator } from "./StringValidator";
+
+export const numberRegexp = /^[0-9]+$/;
 
 export class ZipCodeValidator implements StringValidator {
     isAcceptable(s: string) {
         return s.length === 5 &amp;&amp; numberRegexp.test(s);
     }
-}
 </code></pre>
     
       <h2 id="export-statements">
@@ -32368,9 +32369,12 @@ export {ZipCodeValidator as RegExpBasedZipCodeValidator} from "./ZipCodeValidato
         
       </h5>
 
-<pre><code class="language-ts">export * from "./StringValidator"; // exports interface 'StringValidator'
-export * from "./LettersOnlyValidator"; // exports class 'LettersOnlyValidator'
-export * from "./ZipCodeValidator";  // exports class 'ZipCodeValidator'
+<pre><code class="language-ts">export * from "./StringValidator"; // exports 'StringValidator' interface
+export * from "./ZipCodeValidator";  // exports 'ZipCodeValidator' and const 'numberRegexp' class
+export * from "./ParseIntBasedZipCodeValidator"; //  exports the 'ParseIntBasedZipCodeValidator' class
+                                                 // and re-exports 'RegExpBasedZipCodeValidator' as alias
+                                                 // of the 'ZipCodeValidator' class from 'ZipCodeValidator.ts'
+                                                 // module.
 </code></pre>
     
       <h1 id="import">
@@ -32746,10 +32750,10 @@ for require.js, use <code>--module amd</code>. For example:</p>
 <p>When compiled, each module will become a separate <code>.js</code> file.
 As with reference tags, the compiler will follow <code>import</code> statements to compile dependent files.</p>
     
-      <h5 id="validationts-1">
+      <h5 id="validationts">
         
         
-          Validation.ts <a href="#validationts-1" class="anchor-hash">#</a>
+          Validation.ts <a href="#validationts" class="anchor-hash">#</a>
         
         
       </h5>

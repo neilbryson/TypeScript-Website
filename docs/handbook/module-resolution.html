@@ -16,9 +16,9 @@
   </title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/assets/css/vendor.1383c800.css">
+  <link rel="stylesheet" href="/assets/css/vendor.32fe1aae.css">
 
-  <link rel="stylesheet" href="/assets/css/style.min.d144a223.css">
+  <link rel="stylesheet" href="/assets/css/style.min.83801f6c.css">
 
   <!-- Icons --> <!-- TODO: Check that these all wok -->
   <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
@@ -32580,27 +32580,24 @@ The project layout may look like:</p>
 
 <p>Following this logic, the compiler will attempt to resolve the two imports as such:</p>
 
-<ul>
-  <li>import ‘folder1/file2’
-    <ol>
-      <li>pattern ‘*’ is matched and wildcard captures the whole module name</li>
-      <li>try first substitution in the list: ‘*’ -&gt; <code>folder1/file2</code></li>
-      <li>result of substitution is non-relative name - combine it with <em>baseUrl</em> -&gt; <code>projectRoot/folder1/file2.ts</code>.</li>
-      <li>File exists. Done.</li>
-    </ol>
-  </li>
-  <li>import ‘folder2/file3’
-    <ol>
-      <li>pattern ‘*’ is matched and wildcard captures the whole module name</li>
-      <li>try first substitution in the list: ‘*’ -&gt; <code>folder2/file3</code></li>
-      <li>result of substitution is non-relative name - combine it with <em>baseUrl</em> -&gt; <code>projectRoot/folder2/file3.ts</code>.</li>
-      <li>File does not exist, move to the second substitution</li>
-      <li>second substitution ‘generated/*’ -&gt; <code>generated/folder2/file3</code></li>
-      <li>result of substitution is non-relative name - combine it with <em>baseUrl</em> -&gt; <code>projectRoot/generated/folder2/file3.ts</code>.</li>
-      <li>File exists. Done.</li>
-    </ol>
-  </li>
-</ul>
+<p>import ‘folder1/file2’:</p>
+<ol>
+  <li>pattern ‘*’ is matched and wildcard captures the whole module name</li>
+  <li>try first substitution in the list: ‘*’ -&gt; <code>folder1/file2</code></li>
+  <li>result of substitution is non-relative name - combine it with <em>baseUrl</em> -&gt; <code>projectRoot/folder1/file2.ts</code>.</li>
+  <li>File exists. Done.</li>
+</ol>
+
+<p>import ‘folder2/file3’:</p>
+<ol>
+  <li>pattern ‘*’ is matched and wildcard captures the whole module name</li>
+  <li>try first substitution in the list: ‘*’ -&gt; <code>folder2/file3</code></li>
+  <li>result of substitution is non-relative name - combine it with <em>baseUrl</em> -&gt; <code>projectRoot/folder2/file3.ts</code>.</li>
+  <li>File does not exist, move to the second substitution</li>
+  <li>second substitution ‘generated/*’ -&gt; <code>generated/folder2/file3</code></li>
+  <li>result of substitution is non-relative name - combine it with <em>baseUrl</em> -&gt; <code>projectRoot/generated/folder2/file3.ts</code>.</li>
+  <li>File exists. Done.</li>
+</ol>
     
       <h3 id="virtual-directories-with-rootdirs">
         

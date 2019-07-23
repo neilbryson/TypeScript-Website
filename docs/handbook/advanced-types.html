@@ -16,9 +16,9 @@
   </title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/assets/css/vendor.1383c800.css">
+  <link rel="stylesheet" href="/assets/css/vendor.32fe1aae.css">
 
-  <link rel="stylesheet" href="/assets/css/style.min.d144a223.css">
+  <link rel="stylesheet" href="/assets/css/style.min.83801f6c.css">
 
   <!-- Icons --> <!-- TODO: Check that these all wok -->
   <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
@@ -32234,6 +32234,71 @@
           <article class="post-content">
               <p></p>
     
+      <h1 id="table-of-contents">
+        
+        
+          Table of contents <a href="#table-of-contents" class="anchor-hash">#</a>
+        
+        
+      </h1>
+
+<p><a href="#intersection-types">Intersection Types</a></p>
+
+<p><a href="#union-types">Union Types</a></p>
+
+<p><a href="#type-guards-and-differentiating-types">Type Guards and Differentiating Types</a></p>
+<ul>
+  <li><a href="#user-defined-type-guards">User-Defined Type Guards</a>
+    <ul>
+      <li><a href="#using-type-predicates">Using type predicates</a></li>
+      <li><a href="#using-the-in-operator">Using the <code>in</code> operator</a></li>
+    </ul>
+  </li>
+  <li><a href="#typeof-type-guards"><code>typeof</code> type guards</a></li>
+  <li><a href="#instanceof-type-guards"><code>instanceof</code> type guards</a></li>
+</ul>
+
+<p><a href="#nullable-types">Nullable types</a></p>
+<ul>
+  <li><a href="#optional-parameters-and-properties">Optional parameters and properties</a></li>
+  <li><a href="#type-guards-and-type-assertions">Type guards and type assertions</a></li>
+</ul>
+
+<p><a href="#type-aliases">Type Aliases</a></p>
+<ul>
+  <li><a href="#interfaces-vs-type-aliases">Interfaces vs. Type Aliases</a></li>
+</ul>
+
+<p><a href="#string-literal-types">String Literal Types</a></p>
+
+<p><a href="#numeric-literal-types">Numeric Literal Types</a></p>
+
+<p><a href="#enum-member-types">Enum Member Types</a></p>
+
+<p><a href="#discriminated-unions">Discriminated Unions</a></p>
+<ul>
+  <li><a href="#exhaustiveness-checking">Exhaustiveness checking</a></li>
+</ul>
+
+<p><a href="#polymorphic-this-types">Polymorphic <code>this</code> types</a></p>
+
+<p><a href="#index-types">Index types</a></p>
+<ul>
+  <li><a href="#index-types-and-string-index-signatures">Index types and string index signatures</a></li>
+</ul>
+
+<p><a href="#mapped-types">Mapped types</a></p>
+<ul>
+  <li><a href="#inference-from-mapped-types">Inference from mapped types</a></li>
+</ul>
+
+<p><a href="#conditional-types">Conditional Types</a></p>
+<ul>
+  <li><a href="#distributive-conditional-types">Distributive conditional types</a></li>
+  <li><a href="#type-inference-in-conditional-types">Type inference in conditional types</a></li>
+  <li><a href="#predefined-conditional-types">Predefined conditional types</a></li>
+</ul>
+    
       <h1 id="intersection-types">
         
         
@@ -32774,8 +32839,9 @@ declare function aliased(arg: Alias): Alias;
 declare function interfaced(arg: Interface): Interface;
 </code></pre>
 
-<p>A second more important difference is that type aliases cannot be extended or implemented from (nor can they extend/implement other types).
-Because <a href="https://en.wikipedia.org/wiki/Open/closed_principle">an ideal property of software is being open to extension</a>, you should always use an interface over a type alias if possible.</p>
+<p>in older versions of TypeScript, type aliases couldn’t be extended or implemented from (nor could they extend/implement other types). As of version 2.7, type aliases can be extended by creating a new intersection type e.g. <code>type Cat = Animal &amp; { purrs: true }</code>.</p>
+
+<p>Because <a href="https://en.wikipedia.org/wiki/Open/closed_principle">an ideal property of software is being open to extension</a>, you should always use an interface over a type alias if possible.</p>
 
 <p>On the other hand, if you can’t express some shape with an interface and you need to use a union or tuple type, type aliases are usually the way to go.</p>
     
@@ -33089,7 +33155,7 @@ For example:</p>
 </code></pre>
 
 <p><code>keyof Car</code> is completely interchangeable with <code>'manufacturer' | 'model' | 'year'</code>.
-The difference is that if you add another property to <code>Car</code>, say <code>ownersAddress: string</code>, then <code>keyof Person</code> will automatically update to be <code>'manufacturer' | 'model' | 'year' | ownersAddress</code>.
+The difference is that if you add another property to <code>Car</code>, say <code>ownersAddress: string</code>, then <code>keyof Person</code> will automatically update to be <code>'manufacturer' | 'model' | 'year' | 'ownersAddress'</code>.
 And you can use <code>keyof</code> in generic contexts like <code>pluck</code>, where you can’t possibly know the property names ahead of time.
 That means the compiler will check that you pass the right set of property names to <code>pluck</code>:</p>
 
@@ -33128,13 +33194,15 @@ let unknown = getProperty(taxi, 'unknown');
       </h2>
 
 <p><code>keyof</code> and <code>T[K]</code> interact with string index signatures.
-If you have a type with a string index signature, <code>keyof T</code> will just be <code>string</code>.
+If you have a type with a string index signature, <code>keyof T</code> will be <code>string | number</code>
+(and not just <code>string</code>, since in JavaScript you can access an object property either
+by using strings (<code>object['42'</code>]) or numbers (<code>object[42]</code>)).
 And <code>T[string]</code> is just the type of the index signature:</p>
 
 <pre><code class="language-ts">interface Dictionary&lt;T&gt; {
     [key: string]: T;
 }
-let keys: keyof Dictionary&lt;number&gt;; // string
+let keys: keyof Dictionary&lt;number&gt;; // string | number
 let value: Dictionary&lt;number&gt;['foo']; // number
 </code></pre>
     
@@ -33182,7 +33250,7 @@ type ReadonlyPerson = Readonly&lt;Person&gt;;
 </code></pre>
 
 <p>Note that this syntax describes a type rather than a member.
-If you want to add additional members, you can use an intersection type:</p>
+If you want to add members, you can use an intersection type:</p>
 
 <pre><code class="language-ts">// Use this:
 type PartialWithNewMember&lt;T&gt; = {
@@ -33606,7 +33674,7 @@ type T24 = InstanceType&lt;Function&gt;;  // Error
 </code></pre>
 
 <blockquote>
-  <p>Note: The <code>Exclude</code> type is a proper implementation of the <code>Diff</code> type suggested <a href="https://github.com/Microsoft/TypeScript/issues/12215#issuecomment-307871458">here</a>. We’ve used the name <code>Exclude</code> to avoid breaking existing code that defines a <code>Diff</code>, plus we feel that name better conveys the semantics of the type. We did not include the <code>Omit&lt;T, K&gt;</code> type because it is trivially written as <code>Pick&lt;T, Exclude&lt;keyof T, K&gt;&gt;</code>.</p>
+  <p>Note: The <code>Exclude</code> type is a proper implementation of the <code>Diff</code> type suggested <a href="https://github.com/Microsoft/TypeScript/issues/12215#issuecomment-307871458">here</a>. We’ve used the name <code>Exclude</code> to avoid breaking existing code that defines a <code>Diff</code>, plus we feel that name better conveys the semantics of the type.</p>
 </blockquote>
 
 
